@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Static Template</title>
+  </head>
+  <body>
+    <dialog id="dialogPopup">
+      <button onclick="closeModal('#dialogPopup', '')">
+        close
+      </button>
+      <form method="dialog">
+        <input type="text" value="" name="name" placeholder="이름" />
+        <input type="text" value="" name="age" placeholder="나이" />
+        <button type="submit" value="submit">제출</button>
+      </form>
+    </dialog>
+
+    <button onclick="showModal('#dialogPopup')">showModal</button>
+    <script>
+      function showModal(query) {
+        document.querySelector(query).showModal();
+      }
+      function show(query) {
+        document.querySelector(query).show();
+      }
+      function closeModal(query, param) {
+        document.querySelector(query).close(param);
+      }
+
+      const dialogPopup = document.querySelector("#dialogPopup");
+      dialogPopup.addEventListener("cancel", function (event) {
+        event.preventDefault();
+        closeModal(`#${event.target.id}`, "");
+      });
+
+      dialogPopup.addEventListener("close", function (event) {
+        if (event.target.returnValue === "submit") {
+          for (const [key, value] of new FormData(
+            event.target.querySelector("form")
+          )) {
+            console.log(`${key}: ${value}`);
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
